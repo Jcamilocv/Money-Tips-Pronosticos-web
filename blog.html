@@ -21,7 +21,7 @@
         .article-top { display:flex; align-items:center; gap:0.75rem; }
         .article-icon { font-size:1.6rem; }
         .article-category { font-size:0.85rem; color:#666; font-weight:600; text-transform:uppercase; }
-        .article-title { font-family:'Poppins',sans-serif; font-size:1.1rem; color:var(--primary); margin-top:0.25rem; }
+        h3.article-title { font-family:'Poppins',sans-serif; font-size:1.1rem; color:var(--primary); margin-top:0.25rem; margin-bottom: 0; }
         .article-excerpt { color:#444; font-size:0.95rem; line-height:1.5; flex-grow:1; }
         .article-meta { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; margin-top:0.5rem; }
         .read-more { background:var(--secondary); color:var(--dark); padding:0.5rem 0.9rem; border-radius:8px; text-decoration:none; font-weight:700; }
@@ -32,7 +32,7 @@
         <div class="navbar-content">
             <div class="logo-container">
                 <a href="/">
-                    <img src="IMG_6070.png" alt="Pro Sports Tips Logo" class="logo-image">
+                    <img src="IMG_6070.png" alt="Pro Sports Tips Logo" class="logo-image" width="50" height="50">
                 </a>
             </div>
             <button class="hamburger">
@@ -78,7 +78,7 @@
                     <div class="article-icon">💼</div>
                     <div>
                         <div class="article-category">Estrategias</div>
-                        <div class="article-title">Gestión de Bankroll: La Clave del Éxito</div>
+                        <h3 class="article-title">Gestión de Bankroll: La Clave del Éxito</h3>
                     </div>
                 </div>
                 <p class="article-excerpt">Una gestión de bankroll sólida marca la diferencia entre apostar como profesional o como aficionado. Aprende cómo estructurar tus stakes, calcular el riesgo por apuesta y proteger tu capital ante rachas negativas.</p>
@@ -94,7 +94,7 @@
                     <div class="article-icon">🔍</div>
                     <div>
                         <div class="article-category">Análisis</div>
-                        <div class="article-title">Cómo Identificar Valor en las Cuotas</div>
+                        <h3 class="article-title">Cómo Identificar Valor en las Cuotas</h3>
                     </div>
                 </div>
                 <p class="article-excerpt">Identificar valor en las cuotas es el núcleo de una estrategia rentable. Te mostramos métodos prácticos para comparar probabilidades implícitas con tus estimaciones y encontrar apuestas con expectativa positiva.</p>
@@ -110,7 +110,7 @@
                     <div class="article-icon">📘</div>
                     <div>
                         <div class="article-category">Guías</div>
-                        <div class="article-title">Guía Completa de Apuestas en Vivo</div>
+                        <h3 class="article-title">Guía Completa de Apuestas en Vivo</h3>
                     </div>
                 </div>
                 <p class="article-excerpt">Las apuestas en vivo requieren disciplina y rapidez. Esta guía recoge tácticas para leer el partido, gestionar el riesgo y ejecutar coberturas que mejoren tu rentabilidad en tiempo real.</p>
@@ -126,7 +126,7 @@
                     <div class="article-icon">🧰</div>
                     <div>
                         <div class="article-category">Herramientas</div>
-                        <div class="article-title">Las Mejores Apps para Apostadores</div>
+                        <h3 class="article-title">Las Mejores Apps para Apostadores</h3>
                     </div>
                 </div>
                 <p class="article-excerpt">Repasamos las aplicaciones y plataformas que usamos diariamente: trackers de apuestas, comparadores de cuotas y herramientas de análisis que te ahorrarán tiempo y aumentarán tus probabilidades de encontrar valor.</p>
@@ -156,108 +156,15 @@
         <a href="https://www.youtube.com/@MoneyTipsOficial"><i class="fab fa-youtube"></i></a>
     </div>
 
+    <script src="script.js" defer></script>
     <script>
+        // Filtering logic for blog.html
         document.addEventListener('DOMContentLoaded', function () {
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
-            const navbar = document.querySelector('.navbar');
-            let navbarHeight = navbar ? navbar.offsetHeight : 0;
-
-            window.addEventListener('resize', () => {
-                navbarHeight = navbar ? navbar.offsetHeight : 0;
-            });
-
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-            });
-
-            document.addEventListener('click', e => {
-                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
-            });
-
-            const currentPathname = window.location.pathname;
-            const currentHash = window.location.hash;
-            
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                const linkUrl = new URL(link.href);
-                const linkPath = linkUrl.pathname;
-                const linkHash = linkUrl.hash;
-
-                // Normalize current path (remove .html and ensure leading / for consistency)
-                const currentNormalizedPath = currentPathname.replace(/\.html$/, '');
-
-                // Normalize link path (remove .html and ensure leading / for consistency)
-                const linkNormalizedPath = linkPath.replace(/\.html$/, '');
-
-                link.classList.remove('active'); // Always remove first
-
-                // Logic for active state
-                if (linkNormalizedPath === currentNormalizedPath) {
-                    // If the link's path matches the current page's path (after normalization)
-                    if (currentNormalizedPath === '/') { // It's the homepage
-                        if (linkHash === '') { // This is the "Inicio" link (e.g., href="/")
-                            if (currentHash === '') { // Only activate "Inicio" if no hash in URL
-                                link.classList.add('active');
-                            }
-                        } else if (linkHash === currentHash) { // This is a section link (e.g., #premium) on the homepage
-                            link.classList.add('active'); // Activate if URL hash matches link hash
-                        }
-                    } else { // It's any other page (herramientas, estadisticas, blog, acceso)
-                        // For these pages, just a direct path match makes it active.
-                        // We assume there are no significant hash navigations *within* these secondary pages for active state.
-                        if (linkHash === '') { // Only activate if it's the direct page link (e.g. /herramientas.html for "Herramientas")
-                            link.classList.add('active');
-                        }
-                    }
-                }
-
-
-                link.addEventListener('click', function (e) {
-                    const clickedLinkPathname = new URL(this.href).pathname;
-                    const clickedLinkHash = new URL(this.href).hash;
-
-                    if (clickedLinkHash && (clickedLinkPathname === currentPathname || (clickedLinkPathname === '/' && (currentPathname === '/' || currentPathname === '/index.html')))) {
-                        e.preventDefault();
-
-                        if (clickedLinkHash === '#top') {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                        } else {
-                            const targetElement = document.querySelector(clickedLinkHash);
-                            if (targetElement) {
-                                const elementPosition = targetElement.getBoundingClientRect().top;
-                                const offsetPosition = elementPosition + window.scrollY - navbarHeight;
-                                window.scrollTo({
-                                    top: offsetPosition,
-                                    behavior: 'smooth'
-                                });
-                            }
-                        }
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    } 
-                    else if (clickedLinkHash && clickedLinkPathname !== currentPathname) {
-                        e.preventDefault();
-                        const targetPage = clickedLinkPathname === '/' ? '/index.html' : clickedLinkPathname;
-                        window.location.href = `${window.location.origin}${targetPage}${clickedLinkHash}`;
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                    else {
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                });
-            });
-
-            // Filtering logic
             const filterBtns = document.querySelectorAll('.filter-btn');
             const articles = document.querySelectorAll('#articlesGrid .article-card');
 
             function setActiveFilter(btn) {
+                if (!btn) return;
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 const filter = btn.getAttribute('data-filter');
